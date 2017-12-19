@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dubeniot.mapper.IotDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.dubeniot.pojo.IotDevice" >
+    <id column="deviceId" property="deviceid" jdbcType="INTEGER" />
+    <result column="deviceMac" property="devicemac" jdbcType="VARCHAR" />
+    <result column="deviceSerialNumber" property="deviceserialnumber" jdbcType="VARCHAR" />
+    <result column="deviceType" property="devicetype" jdbcType="VARCHAR" />
+    <result column="deviceVersion" property="deviceversion" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    deviceId, deviceMac, deviceSerialNumber, deviceType, deviceVersion, created
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dubeniot.pojo.IotDeviceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from iot_device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from iot_device
+    where deviceId = #{deviceid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iot_device
+    where deviceId = #{deviceid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dubeniot.pojo.IotDeviceExample" >
+    delete from iot_device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dubeniot.pojo.IotDevice" >
+    insert into iot_device (deviceId, deviceMac, deviceSerialNumber, 
+      deviceType, deviceVersion, created
+      )
+    values (#{deviceid,jdbcType=INTEGER}, #{devicemac,jdbcType=VARCHAR}, #{deviceserialnumber,jdbcType=VARCHAR}, 
+      #{devicetype,jdbcType=VARCHAR}, #{deviceversion,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dubeniot.pojo.IotDevice" >
+    insert into iot_device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceid != null" >
+        deviceId,
+      </if>
+      <if test="devicemac != null" >
+        deviceMac,
+      </if>
+      <if test="deviceserialnumber != null" >
+        deviceSerialNumber,
+      </if>
+      <if test="devicetype != null" >
+        deviceType,
+      </if>
+      <if test="deviceversion != null" >
+        deviceVersion,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="devicemac != null" >
+        #{devicemac,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceserialnumber != null" >
+        #{deviceserialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetype != null" >
+        #{devicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceversion != null" >
+        #{deviceversion,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dubeniot.pojo.IotDeviceExample" resultType="java.lang.Integer" >
+    select count(*) from iot_device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update iot_device
+    <set >
+      <if test="record.deviceid != null" >
+        deviceId = #{record.deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="record.devicemac != null" >
+        deviceMac = #{record.devicemac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceserialnumber != null" >
+        deviceSerialNumber = #{record.deviceserialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicetype != null" >
+        deviceType = #{record.devicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceversion != null" >
+        deviceVersion = #{record.deviceversion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update iot_device
+    set deviceId = #{record.deviceid,jdbcType=INTEGER},
+      deviceMac = #{record.devicemac,jdbcType=VARCHAR},
+      deviceSerialNumber = #{record.deviceserialnumber,jdbcType=VARCHAR},
+      deviceType = #{record.devicetype,jdbcType=VARCHAR},
+      deviceVersion = #{record.deviceversion,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dubeniot.pojo.IotDevice" >
+    update iot_device
+    <set >
+      <if test="devicemac != null" >
+        deviceMac = #{devicemac,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceserialnumber != null" >
+        deviceSerialNumber = #{deviceserialnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetype != null" >
+        deviceType = #{devicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceversion != null" >
+        deviceVersion = #{deviceversion,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where deviceId = #{deviceid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dubeniot.pojo.IotDevice" >
+    update iot_device
+    set deviceMac = #{devicemac,jdbcType=VARCHAR},
+      deviceSerialNumber = #{deviceserialnumber,jdbcType=VARCHAR},
+      deviceType = #{devicetype,jdbcType=VARCHAR},
+      deviceVersion = #{deviceversion,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where deviceId = #{deviceid,jdbcType=INTEGER}
+  </update>
+</mapper>
